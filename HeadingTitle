@@ -1,0 +1,29 @@
+Title_Example = 
+//VAR _COUNTofSUBCATEGORY = COUNTX(dimProduct,VALUES(dimProduct[ProductSubcategoryName]))
+VAR _COUNTofSUBCATEGORY = COUNTROWS(VALUES(dimProduct[ProductSubcategoryName]))
+VAR _NOofITEMS = 4
+VAR _Title =
+if(_COUNTofSUBCATEGORY<=_NOofITEMS,
+CONCATENATEX(
+    // VALUES(dimProduct[ProductSubcategoryName]),
+    FILTERS(dimProduct[ProductSubcategoryName]),
+    dimProduct[ProductSubcategoryName],
+    ",",
+    dimProduct[ProductSubcategoryName],
+    ASC
+),
+
+CONCATENATEx( 
+    TOPN(_NOofITEMS,VALUES(dimProduct[ProductSubcategoryName])),
+    // TOPN(_NOofITEMS,FILTERS(dimProduct[ProductSubcategoryName])),
+    dimProduct[ProductSubcategoryName],
+    ",",
+    dimProduct[ProductSubcategoryName],
+    ASC
+)&",etc"
+)
+
+VAR _Filtered_title =
+IF(ISFILTERED(dimProduct[ProductSubcategoryName]), _Title,"All Items in subcategory list")
+return 
+_Filtered_title
