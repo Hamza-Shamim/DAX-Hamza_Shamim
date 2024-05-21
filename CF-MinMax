@@ -1,0 +1,29 @@
+MaxMin = 
+VAR Maximum = 
+    MAXX(
+        ALLSELECTED(
+            // fctSales[DateKey]
+            dimDate[Year],
+            dimDate[Quarter],dimDate[QuarterNo],
+            dimDate[Month],dimDate[MonthNo]
+            // dimDate
+            ),
+        [Total Sales]
+    )
+VAR Minimum = 
+    MINX(
+        ALLSELECTED(
+            // fctSales[DateKey]
+            dimDate[Year],
+            dimDate[Quarter],dimDate[QuarterNo],
+            dimDate[Month],dimDate[MonthNo]
+            // dimDate
+            ),
+        [Total Sales]
+    )
+
+Var Points = if(
+                [Total Sales]=Maximum || [Total Sales] = Minimum,
+                [Total Sales],
+                " ")
+Return Points
